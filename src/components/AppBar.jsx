@@ -1,7 +1,8 @@
-import { View, StyleSheet, Pressable, Text, Alert } from 'react-native';
+import { View, StyleSheet, Pressable, Text, Alert, ScrollView } from 'react-native';
 import Constants from 'expo-constants';
 import theme from '../theme';
 import AppBarTab from './AppBarTab';
+import { Link } from 'react-router-native';
 
 const styles = StyleSheet.create({
   container: { 
@@ -9,18 +10,26 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingBottom: 10,
     display: 'flex',
-    direction: 'row',
+    flexDirection: 'row',
     backgroundColor: theme.backgroundColors.appBarBg,
     opacity: 0.8,
+  },
+  tab: {
+    marginRight: 10,
   }
 });
 
 const AppBar = () => {
   return (
     <View style={styles.container}>
-      <Pressable onPress={() => Alert.alert('repositories page clicked')}>
-        <AppBarTab tabName="Repositories" />
-      </Pressable>
+      <ScrollView horizontal>
+        <Link to="/" style={styles.tab}>
+          <AppBarTab tabName="Repositories" />
+        </Link>
+        <Link to="/signin" style={styles.tab}>
+          <AppBarTab tabName="Sign In" />
+        </Link>
+      </ScrollView>
     </View>
   )
 };
