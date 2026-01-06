@@ -4,6 +4,7 @@ import { TextInput, Pressable, View, StyleSheet } from 'react-native';
 import * as yup from 'yup';
 
 import theme from '../theme';
+import useSignIn from '../hooks/useSignIn';
 
 const styles = StyleSheet.create({
   container: {
@@ -40,21 +41,23 @@ const validationSchema = yup.object().shape({
 
 const SignIn = () => {
 
+  const [signIn] = useSignIn();
+
+  const onSubmit = async (values) => {
+    const { username, password } = values;
+
+    try {
+      const { data } = await signIn({ username, password });
+      console.log(data);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   const initialValues = {
     username: '',
     password: '',
   };
-
-  const onSubmit = (values, {resetForm}) => {
-    console.log(values);
-    if (values.username !== "" && values.password !== "") {
-      console.log(`User: ${values.username} Password: ${values.password}`)
-      resetForm();
-
-    } else {
-      console.error(`Username and Password cannot be empty`)
-    }
-  }
 
   const formik = useFormik({
     initialValues,
@@ -77,6 +80,8 @@ const SignIn = () => {
         placeholder="Username" 
         value={formik.values.username} 
         onChangeText={formik.handleChange('username')} 
+        autoCapitalize='none'
+        autoCorrect={false}
       />
       {formik.touched.username && formik.errors.username && (
         <Text style={{ color: 'red', marginLeft: 10}}>{formik.errors.username}</Text>
@@ -87,6 +92,8 @@ const SignIn = () => {
         placeholder="Password" secureTextEntry 
         value={formik.values.password} 
         onChangeText={formik.handleChange('password')} 
+        autoCapitalize='none'
+        autoCorrect={false}
       />
       {formik.touched.password && formik.errors.password && (
         <Text style={{ color: 'red', marginLeft: 10 }}>{formik.errors.password}</Text>
