@@ -1,10 +1,6 @@
 import useAuthStorage from '../hooks/useAuthStorage';
 import { useApolloClient } from '@apollo/client/react';
 
-// import { useMutation } from "@apollo/client/react";
-
-// import { AUTHENTICATE } from "../graphql/mutations";
-
 
 const useSignOut = () => {
   const authStorage = useAuthStorage();

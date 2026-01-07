@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
 });
 
 const ItemSeparator = () => <View style={styles.separator} />;
+const renderItem = ({item}) => (<RepositoryItem {...item} />);
 
 const RepositoryList = () => {
   const { repositories } = useRepositories();
@@ -20,7 +21,7 @@ const RepositoryList = () => {
     <FlatList
       data={repositoryNodes}
       ItemSeparatorComponent={ItemSeparator}
-      renderItem={({item}) => <RepositoryItem {...item} />}
+      renderItem={renderItem}
       keyExtractor={item => item.id}
     />
   );
