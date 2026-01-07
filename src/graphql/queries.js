@@ -11,3 +11,13 @@ export const GET_REPOSITORIES = gql`
   
   ${GET_REPOS_FRAGMENT}
 `
+
+
+export const CURRENT_USER = gql`
+  query {
+    me {
+      id
+      username
+    }
+  }
+`

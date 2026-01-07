@@ -4,6 +4,11 @@ import theme from '../theme';
 import AppBarTab from './AppBarTab';
 import { Link } from 'react-router-native';
 
+import { useQuery } from '@apollo/client/react';
+import { CURRENT_USER } from '../graphql/queries';
+import useSignOut from '../hooks/useSignOut';
+
+
 const styles = StyleSheet.create({
   container: { 
     paddingTop: Constants.statusBarHeight + 10,
@@ -20,15 +25,26 @@ const styles = StyleSheet.create({
 });
 
 const AppBar = () => {
+  const signOut = useSignOut();
+  const { data } = useQuery(CURRENT_USER, {
+    fetchPolicy: 'cache-and-network',
+  });
+  
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
         <Link to="/" style={styles.tab}>
           <AppBarTab tabName="Repositories" />
         </Link>
-        <Link to="/signin" style={styles.tab}>
-          <AppBarTab tabName="Sign In" />
-        </Link>
+        {data?.me ? (
+          <Pressable onPress={signOut}>
+            <AppBarTab tabName="Sign Out" />
+          </Pressable>
+        ) : (
+          <Link to="/signin" style={styles.tab}>
+            <AppBarTab tabName="Sign In" />
+          </Link>
+        )}
       </ScrollView>
     </View>
   )
