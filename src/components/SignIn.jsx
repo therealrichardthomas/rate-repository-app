@@ -38,24 +38,10 @@ const validationSchema = yup.object().shape({
   password: yup.string()
     .min(8, "Password must be at least 8 characters")
     .required('Password is required'),
-})
+});
 
-const SignIn = () => {
-  const [signIn] = useSignIn();
-  const navigate = useNavigate();
 
-  const onSubmit = async (values) => {
-    const { username, password } = values;
-
-    try {
-      const { data } = await signIn({ username, password });
-      navigate('/', {replace: true});
-      console.log(data);
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
+export const SignInContainer = ({onSubmit}) => {
   const initialValues = {
     username: '',
     password: '',
@@ -106,6 +92,28 @@ const SignIn = () => {
       </Pressable>
     </View>
   );
+
+}
+
+const SignIn = () => {
+  const [signIn] = useSignIn();
+  const navigate = useNavigate();
+
+  const onSubmit = async (values) => {
+    const { username, password } = values;
+
+    try {
+      const { data } = await signIn({ username, password });
+      navigate('/', {replace: true});
+      console.log(data);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  return (
+    <SignInContainer onSubmit={onSubmit} />
+  )
 };
 
 export default SignIn;
