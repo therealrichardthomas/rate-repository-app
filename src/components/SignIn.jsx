@@ -49,7 +49,7 @@ const SignIn = () => {
 
     try {
       const { data } = await signIn({ username, password });
-      navigate('/');
+      navigate('/', {replace: true});
       console.log(data);
     } catch (e) {
       console.log(e);

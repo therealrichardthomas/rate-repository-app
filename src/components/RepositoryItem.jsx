@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
 
 const RepositoryItem = props => {
   return (
-    <View style={styles.container}> 
+    <View testID="repositoryItem" style={styles.container}> 
       <View style={styles.topContainer}>
         <Image source={{uri: props.ownerAvatarUrl}} style={styles.imageStyle}/>
         <View style={styles.rightTopContainer}>
