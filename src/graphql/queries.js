@@ -21,3 +21,20 @@ export const CURRENT_USER = gql`
     }
   }
 `
+
+export const SINGLE_REPO = gql`
+  query singleRepo ($id: ID!) {
+    repository (id: $id) {
+      id
+      fullName
+      description
+      language
+      forksCount
+      stargazersCount
+      ratingAverage
+      reviewCount
+      ownerAvatarUrl
+      url
+    }
+  }
+`
