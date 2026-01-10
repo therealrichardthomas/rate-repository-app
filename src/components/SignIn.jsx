@@ -33,10 +33,8 @@ const styles = StyleSheet.create({
 
 const validationSchema = yup.object().shape({
   username: yup.string()
-  .min(1, "Username must be at least 1 character")
   .required('Username is required'),
   password: yup.string()
-    .min(8, "Password must be at least 8 characters")
     .required('Password is required'),
 });
 
