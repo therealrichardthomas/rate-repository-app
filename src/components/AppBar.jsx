@@ -3,6 +3,8 @@ import Constants from 'expo-constants';
 import theme from '../theme';
 import AppBarTab from './AppBarTab';
 import { Link } from 'react-router-native';
+import { useNavigate } from 'react-router-native';
+import { useEffect } from 'react';
 
 import { useQuery } from '@apollo/client/react';
 import { CURRENT_USER } from '../graphql/queries';
@@ -29,6 +31,18 @@ const AppBar = () => {
   const { data } = useQuery(CURRENT_USER, {
     fetchPolicy: 'cache-and-network',
   });
+
+  const navigate = useNavigate();
+
+  const reviewForm = () => {
+    navigate('/reviewForm');
+  }
+
+  useEffect(() => {
+    if (!data?.me) {
+      navigate('/', { replace: true });
+    }
+  }, [data?.me])
   
   return (
     <View style={styles.container}>
@@ -36,6 +50,11 @@ const AppBar = () => {
         <Link to="/" style={styles.tab}>
           <AppBarTab tabName="Repositories" />
         </Link>
+        {data?.me ? (
+          <Pressable style={styles.tab} onPress={reviewForm}>
+            <AppBarTab tabName="Create a review" />
+          </Pressable>
+        ) : null}
         {data?.me ? (
           <Pressable onPress={signOut}>
             <AppBarTab tabName="Sign Out" />

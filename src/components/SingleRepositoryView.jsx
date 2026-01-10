@@ -34,11 +34,6 @@ const styles = StyleSheet.create({
   ratingText: {
     color: '#4578b6',
   },
-  reviewInfo: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-  }
 })
 
 const ReviewItem = ({ review }) => {
@@ -51,9 +46,9 @@ const ReviewItem = ({ review }) => {
           {review.rating}
         </Text>
       </View>
-      <View style={styles.reviewInfo}>
-        <Text fontWeight="bold" >{review.user.username}</Text>
-        <Text color="textSecondary">{date}</Text>
+      <View>
+        <Text fontWeight="bold" style={{marginBottom: 5}}>{review.user.username}</Text>
+        <Text color="textSecondary" style={{marginBottom: 5}}>{date}</Text>
         <Text>{review.text}</Text>
       </View>
 
