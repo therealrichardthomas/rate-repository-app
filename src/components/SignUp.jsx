@@ -39,8 +39,8 @@ const validationSchema = yup.object().shape({
     .max(30, 'Username cannot be more than 30 characters')
     .required('Username is required'),
   password: yup.string()
-    .min(5, 'Username must be at least 5 characters')
-    .max(50, 'Username cannot be more than 50 characters')
+    .min(5, 'Password must be at least 5 characters')
+    .max(50, 'Password cannot be more than 50 characters')
     .required('Password is required'),
   passwordConfirmation: yup.string()
     .oneOf([yup.ref('password'), null])
