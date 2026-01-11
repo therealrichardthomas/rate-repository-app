@@ -82,8 +82,6 @@ const ReviewForm = () => {
         }
       });
 
-      console.log(data.createReview.repositoryId);
-
       navigate(`/repository/${data.createReview.repositoryId}`, { replace: true })
 
       

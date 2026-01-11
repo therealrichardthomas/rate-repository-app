@@ -3,8 +3,8 @@ import Constants from 'expo-constants';
 import theme from '../theme';
 import AppBarTab from './AppBarTab';
 import { Link } from 'react-router-native';
-import { useNavigate } from 'react-router-native';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-native';
 
 import { useQuery } from '@apollo/client/react';
 import { CURRENT_USER } from '../graphql/queries';
@@ -27,16 +27,11 @@ const styles = StyleSheet.create({
 });
 
 const AppBar = () => {
+  const navigate = useNavigate();
   const signOut = useSignOut();
   const { data } = useQuery(CURRENT_USER, {
     fetchPolicy: 'cache-and-network',
   });
-
-  const navigate = useNavigate();
-
-  const reviewForm = () => {
-    navigate('/reviewForm');
-  }
 
   useEffect(() => {
     if (!data?.me) {
@@ -51,9 +46,9 @@ const AppBar = () => {
           <AppBarTab tabName="Repositories" />
         </Link>
         {data?.me ? (
-          <Pressable style={styles.tab} onPress={reviewForm}>
+          <Link to="/reviewform" style={styles.tab}>
             <AppBarTab tabName="Create a review" />
-          </Pressable>
+          </Link>
         ) : null}
         {data?.me ? (
           <Pressable onPress={signOut}>
@@ -62,6 +57,13 @@ const AppBar = () => {
         ) : (
           <Link to="/signin" style={styles.tab}>
             <AppBarTab tabName="Sign In" />
+          </Link>
+        )}
+        {data?.me ? (
+          null
+        ) : (
+          <Link to="/signup">
+            <AppBarTab tabName="Sign up" />
           </Link>
         )}
       </ScrollView>
