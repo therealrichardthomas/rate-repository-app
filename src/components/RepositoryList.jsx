@@ -1,6 +1,6 @@
-import { FlatList, View, StyleSheet, Pressable } from 'react-native';
+import { FlatList, View, StyleSheet, Pressable, TextInput } from 'react-native';
 import { Menu, Modal, Portal, Button } from 'react-native-paper';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import theme from '../theme';
 import Text from './Text';
 import RepositoryItem from './RepositoryItem'
@@ -32,11 +32,44 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonStyle: {
-    padding: 10
+    paddingVertical: 10,
   },
   buttonText: {
     color: 'black',
-    fontWeight: 'normal'
+    fontWeight: 'normal',
+    marginHorizontal: 0,
+    marginVertical: 0,
+  },
+  searchContainer: {
+    display: 'flex',
+    flexDirection: 'row'
+  },
+  search: {
+    backgroundColor: 'white',
+    padding: 10,
+    paddingLeft: 30,
+    flexGrow: 1,
+    borderRadius: 5
+  },
+  searchIcon: {
+    zIndex: 30, 
+    position: 'absolute', 
+    top: 3.5,
+    left: 8, 
+    fontSize: 25, 
+    transform: [{scaleX: -1}],
+  },
+  clearIcon: {
+    zIndex: 30, 
+    position: 'absolute', 
+    top: 5,
+    right: 8, 
+    fontSize: 15, 
+    transform: [{scaleX: -1}],
+  },
+  header: {
+    paddingHorizontal: 15,
+    paddingTop: 15,
   }
 });
 
@@ -50,49 +83,73 @@ export const MenuModal = ({ onSelect, currentPrinciple }) => {
 
 
   return (
-    <View >
+    <View style={{paddingVertical: 5}}>
       <Pressable style={styles.dropdown} onPress={openMenu}>
         <Button style={styles.buttonStyle} labelStyle={styles.buttonText}>{currentPrinciple}</Button>
         <Text style={{marginRight: 10}}>⏷</Text>
       </Pressable>
-        <Portal>
-          <Modal
-            visible={visible}
-            onDismiss={closeMenu}
-            contentContainerStyle={styles.modalContainer}>
-              <Menu.Item onPress={() => {}} disabled title="Select an item..." titleStyle={styles.selectText} />
-              <Menu.Item onPress={() => {
-                  onSelect({order: 'CREATED_AT', direction: 'DESC', principle: 'Latest repositories'});
-                  closeMenu();
-                }} title="Latest repositories" style={styles.itemStyle} />
-              <Menu.Item onPress={() => {
-                  onSelect({order: 'RATING_AVERAGE', direction: 'DESC', principle: 'Highest rated repositories'})
-                  closeMenu();
-                }} title="Highest rated repositories" style={styles.itemStyle} />
-              <Menu.Item onPress={() => {
-                  onSelect({order: 'RATING_AVERAGE', direction: 'ASC', principle: 'Lowest rated repositories'})
-                  closeMenu();
-                }} title="Lowest rated repositories" style={styles.itemStyle} />
+      <Portal style={{padding: 10}}>
+        <Modal
+          visible={visible}
+          onDismiss={closeMenu}
+          contentContainerStyle={styles.modalContainer}>
+            <Menu.Item onPress={() => {}} disabled title="Select an item..." titleStyle={styles.selectText} />
+            <Menu.Item onPress={() => {
+                onSelect({order: 'CREATED_AT', direction: 'DESC', principle: 'Latest repositories'});
+                closeMenu();
+              }} title="Latest repositories" style={styles.itemStyle} />
+            <Menu.Item onPress={() => {
+                onSelect({order: 'RATING_AVERAGE', direction: 'DESC', principle: 'Highest rated repositories'})
+                closeMenu();
+              }} title="Highest rated repositories" style={styles.itemStyle} />
+            <Menu.Item onPress={() => {
+                onSelect({order: 'RATING_AVERAGE', direction: 'ASC', principle: 'Lowest rated repositories'})
+                closeMenu();
+              }} title="Lowest rated repositories" style={styles.itemStyle} />
 
-          </Modal>
-        </Portal>
+        </Modal>
+      </Portal>
     </View>
   )
 
 }
 
-export const RepositoryListContainer = ({ repositories, onSelect, currentPrinciple }) => {
-  const repositoryNodes = repositories ? repositories.edges.map(edge => edge.node) : [];
-
-  return (
+export class RepositoryListContainer extends React.Component{
+  renderHeader = () => {
+    const { repositories, onSelect, currentPrinciple, search, setSearch } = this.props;
+    
+    return (
+      <View style={styles.header}>
+        <View style={styles.searchContainer} >
+          <Text style={styles.searchIcon}>⌕</Text>
+          <TextInput 
+            style={styles.search}
+            value={search}
+            onChangeText={setSearch}
+            placeholder='Search'
+            autoCapitalize='none'
+            autoCorrect={false}
+            />
+          <Text onPress={() => setSearch('')} style={styles.clearIcon}>✖️</Text>
+        </View>
+        <MenuModal onSelect={onSelect} currentPrinciple={currentPrinciple} />
+      </View>
+    );
+  };
+  
+  render() {
+    const { repositories } = this.props;
+    const repositoryNodes = repositories ? repositories.edges.map(edge => edge.node) : [];
+    return (
       <FlatList
         data={repositoryNodes}
         ItemSeparatorComponent={ItemSeparator}
         renderItem={renderItem}
         keyExtractor={item => item.id}
-        ListHeaderComponent={() => (<MenuModal onSelect={onSelect} currentPrinciple={currentPrinciple} />)}
+        ListHeaderComponent={this.renderHeader}
       />
-  )
+    )
+  }
 }
 
 const RepositoryList = () => {
@@ -100,7 +157,9 @@ const RepositoryList = () => {
   const [orderDirection, setOrderDirection] = useState('DESC');
   const [orderBy, setOrderBy] = useState('CREATED_AT');
 
-  const { repositories } = useRepositories(orderBy, orderDirection);
+  const [searchKeyword, setSearchKeyword] = useState('');
+
+  const { repositories } = useRepositories(orderBy, orderDirection, searchKeyword);
 
   const handleSelection = (selection) => {
     const { order, direction, principle } = selection;
@@ -110,7 +169,7 @@ const RepositoryList = () => {
   };
   
   return (
-    <RepositoryListContainer repositories={repositories} onSelect={handleSelection} currentPrinciple={principle} />
+    <RepositoryListContainer repositories={repositories} onSelect={handleSelection} currentPrinciple={principle} search={searchKeyword} setSearch={setSearchKeyword} />
   );
 };
 
