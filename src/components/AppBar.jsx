@@ -51,6 +51,11 @@ const AppBar = () => {
           </Link>
         ) : null}
         {data?.me ? (
+          <Link to="/myreviews" style={styles.tab}>
+            <AppBarTab tabName="My Reviews" />
+          </Link>
+        ) : null}
+        {data?.me ? (
           <Pressable onPress={signOut}>
             <AppBarTab tabName="Sign Out" />
           </Pressable>
