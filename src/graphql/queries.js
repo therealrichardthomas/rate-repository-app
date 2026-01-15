@@ -21,12 +21,14 @@ export const CURRENT_USER = gql`
       reviews @include(if: $includeReviews){
         edges {
           node {
+            id
             rating
             createdAt
             text
             repository {
               fullName
               url
+              id
             }
           }
         }
