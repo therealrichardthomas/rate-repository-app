@@ -69,6 +69,7 @@ const ReviewItem = ({ review, refetch }) => {
     Alert.alert('Delete review', "Are you sure you want to delete this review?", [
       {
         text: 'Cancel',
+        // eslint-disable-next-line no-undef
         onPress: () => console.log("Cancel pressed"),
         style: 'cancel'
       },
@@ -89,6 +90,7 @@ const ReviewItem = ({ review, refetch }) => {
       refetch();
 
     } catch (e) {
+      // eslint-disable-next-line no-undef
       console.log("ERROR DELETING REVIEW: ", e);
     }
   }

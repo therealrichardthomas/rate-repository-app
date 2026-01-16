@@ -34,6 +34,7 @@ const createApolloClient = (authStorage) => {
         },
       };
     } catch (e) {
+      // eslint-disable-next-line no-undef
       console.log(`ERROR IN APOLLO CLIENT: ${e}`);
       return {
         headers,

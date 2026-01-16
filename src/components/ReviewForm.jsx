@@ -86,6 +86,7 @@ const ReviewForm = () => {
 
       
     } catch (e) {
+      // eslint-disable-next-line no-undef
       console.log(e);
       if (e.message.includes('has already reviewed')) {
         formik.setErrors({
@@ -96,6 +97,7 @@ const ReviewForm = () => {
           repositoryName: 'This repository does not exist'
         });
       } else {
+        // eslint-disable-next-line no-undef
         console.log("Unexpected Error: ", e.message);
       }
     }

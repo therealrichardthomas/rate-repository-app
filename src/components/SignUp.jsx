@@ -120,7 +120,7 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const onSubmit = async (values) => {
-    const { username, password, passwordConfirmation } = values;
+    const { username, password } = values;
 
     try {
       await createUser({
@@ -130,10 +130,11 @@ const SignUp = () => {
         }
       })
 
-      const { data } = await signIn({ username, password });
+      await signIn({ username, password });
       navigate('/', {replace: true});
 
     } catch (e) {
+      // eslint-disable-next-line no-undef
       console.log("Unexpected error occurred: ", e.message);
     }
 

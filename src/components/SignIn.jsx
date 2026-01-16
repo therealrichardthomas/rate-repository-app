@@ -101,10 +101,10 @@ const SignIn = () => {
     const { username, password } = values;
 
     try {
-      const { data } = await signIn({ username, password });
+      await signIn({ username, password });
       navigate('/', {replace: true});
-      // console.log(data);
     } catch (e) {
+      // eslint-disable-next-line no-undef
       console.log(e);
     }
   }

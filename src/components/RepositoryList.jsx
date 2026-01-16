@@ -116,7 +116,7 @@ export const MenuModal = ({ onSelect, currentPrinciple }) => {
 
 export class RepositoryListContainer extends React.Component{
   renderHeader = () => {
-    const { repositories, onSelect, currentPrinciple, search, setSearch } = this.props;
+    const { onSelect, currentPrinciple, search, setSearch } = this.props;
     
     return (
       <View style={styles.header}>
