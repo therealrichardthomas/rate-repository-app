@@ -3,9 +3,14 @@ import { gql } from '@apollo/client';
 import { GET_REPOS_FRAGMENT } from './fragments';
 
 export const GET_REPOSITORIES = gql`
-  query allRepositories ($orderBy: AllRepositoriesOrderBy, $orderDirection: OrderDirection, $searchKeyword: String!){
-    repositories (orderBy: $orderBy, orderDirection: $orderDirection, searchKeyword: $searchKeyword) {
+  query allRepositories ($orderBy: AllRepositoriesOrderBy, $orderDirection: OrderDirection, $searchKeyword: String!, $first: Int, $after: String){
+    repositories (orderBy: $orderBy, orderDirection: $orderDirection, searchKeyword: $searchKeyword, first: $first, after: $after) {
       ...RepositoriesFragment
+      pageInfo {
+        endCursor
+        startCursor
+        hasNextPage
+      }
     }
   }
   
@@ -38,7 +43,7 @@ export const CURRENT_USER = gql`
 `
 
 export const SINGLE_REPO = gql`
-  query singleRepo ($id: ID!) {
+  query singleRepo ($id: ID!, $first: Int, $after: String) {
     repository (id: $id) {
       id
       fullName
@@ -50,7 +55,7 @@ export const SINGLE_REPO = gql`
       reviewCount
       ownerAvatarUrl
       url
-      reviews {
+      reviews (first: $first, after: $after) {
         edges {
           node {
             id
@@ -62,6 +67,11 @@ export const SINGLE_REPO = gql`
               username
             }
           }
+        }
+        pageInfo {
+          endCursor
+          hasNextPage
+          startCursor
         }
       }
     }

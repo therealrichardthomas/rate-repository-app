@@ -61,7 +61,6 @@ const styles = StyleSheet.create({
 });
 
 const ReviewItem = ({ review, refetch }) => {
-  console.log(review);
   const date = format(new Date(review.createdAt), "MM.dd.yyyy");
   const navigate = useNavigate();
   const [deleteReview] = useMutation(DELETE_REVIEW);
