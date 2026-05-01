@@ -50,7 +50,7 @@ This application requires a local backend server to function. The backend API is
 
 1.  **Clone this repository:**
     ```bash
-    git clone <your-repo-url>
+    git clone https://github.com/therealrichardthomas/rate-repository-app.git
     cd rate-repository-app
     ```
 
