@@ -36,10 +36,15 @@ This application requires a local backend server to function. The backend API is
 1.  Open a new terminal window.
 2.  Clone the backend repository:
     ```bash
-    git clone [https://github.com/fullstack-hy2020/rate-repository-api.git](https://github.com/fullstack-hy2020/rate-repository-api.git)
+    git clone https://github.com/fullstack-hy2020/rate-repository-api.git
     cd rate-repository-api
     ```
-3.  Install dependencies and start the server:
+3. Install node version 16
+   ```bash
+   nvm install 16
+   nvm use 16
+   ```
+4.  Install dependencies and start the server:
     ```bash
     npm install
     npm start
@@ -54,18 +59,23 @@ This application requires a local backend server to function. The backend API is
     cd rate-repository-app
     ```
 
-2.  **Install dependencies:**
+2. Use node version 16
+   ```bash
+   nvm use 16
+   ```
+
+3.  **Install dependencies:**
     ```bash
     npm install
     ```
 
-3.  **Environment Variables:**
+4.  **Environment Variables:**
     This project uses `dotenv` for configuration. Create a `.env` file in the root directory:
     ```env
     ENV=development
     # Use your machine's local IP address if testing on a physical device (e.g., [http://192.168.1.5:4000/graphql](http://192.168.1.5:4000/graphql))
     # Use http://localhost:4000/graphql for web or simulator
-    APOLLO_URI=http://localhost:4000/graphql
+    APOLLO_URI=http://127.0.0.1:4000/graphql
     ```
 
 ## 🏃‍♂️ Running the App
@@ -73,7 +83,7 @@ This application requires a local backend server to function. The backend API is
 Start the Expo development server:
 
 ```bash
-npm start
+npm start -- -c
 ```
 
 ## Platform Specific Commands
